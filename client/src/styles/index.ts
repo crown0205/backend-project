@@ -3,15 +3,15 @@ import reset from "styled-reset";
 
 export const GlobalStyle = createGlobalStyle`
 
-  /* ${reset} */
+  ${reset}
 
   * {
     box-sizing: border-box;
   }
 
-  /* html,body {
-  font-size: 16px;
-} */
+  html,body {
+  font-size: 16px; 
+  }
 
   body {
     margin: 0;
@@ -26,6 +26,5 @@ export const GlobalStyle = createGlobalStyle`
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;
   }
-
 
 `;
