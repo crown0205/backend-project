@@ -15,6 +15,15 @@ const TweetCard: React.FC<TweetCardProps> = ({}) => {
             <small className="time">TIME</small>
           </span>
           <span className="content">CONTENT</span>
+
+          <div className="editInputBox">
+            <input type="text" />
+
+            <div className="editButtonBox">
+              <button>Update</button>
+              <button>Cancel</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -29,7 +38,7 @@ const TweetCard: React.FC<TweetCardProps> = ({}) => {
 export default TweetCard;
 
 const Card = styled.ol`
-  height: 80px;
+  height: auto;
   padding: 8px;
   margin-top: 12px;
   display: flex;
@@ -39,35 +48,74 @@ const Card = styled.ol`
   border-radius: 6px;
 
   .cardContentBox {
+    width: 100%;
     display: flex;
     gap: 10px;
 
-    .nameBox {
-      font-weight: 600;
-      color: #111;
-      display: flex;
-      gap: 6px;
+    .contentBox {
+      width: 100%;
 
-      .name {
+      .nameBox {
+        font-weight: 600;
+        color: #111;
+        display: flex;
+        gap: 6px;
+
+        .name {
+          font-size: 14px;
+          font-weight: 800;
+        }
+
+        .id {
+          font-size: 12px;
+          color: #1f6ede;
+          cursor: pointer;
+        }
+
+        .time {
+          font-size: 12px;
+          color: #444444;
+        }
+      }
+
+      .content {
         font-size: 14px;
-        font-weight: 800;
+        color: #111111;
+        margin-top: 6px;
       }
 
-      .id {
-        font-size: 12px;
-        color: #1f6ede;
-        cursor: pointer;
-      }
+      .editInputBox {
+        margin-top: 16px;
+        width: 100%;
 
-      .time {
-        font-size: 12px;
-        color: #444444;
-      }
-    }
+        > input {
+          width: 100%;
+          background-color: #fff;
+          border-color: #bebebe;
+        }
 
-    .content {
-      font-size: 14px;
-      color: #111111;
+        .editButtonBox {
+          display: flex;
+          justify-content: end;
+          gap: 6px;
+
+          button {
+            padding: 2px 6px;
+            margin: 0;
+            width: fit-content;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+          }
+
+          :nth-child(1) {
+            background-color: #5c94e4;
+          }
+          :nth-child(2) {
+            background-color: #f34b4b;
+          }
+        }
+      }
     }
   }
 

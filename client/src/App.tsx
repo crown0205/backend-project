@@ -4,6 +4,7 @@ import Main from "./pages/main";
 import styled from "styled-components";
 import Header from "./components/Header";
 import { GlobalStyle } from "./styles";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
       <Container className="App">
         <Header />
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/home" element={<Main />} />
         </Routes>
       </Container>
     </>

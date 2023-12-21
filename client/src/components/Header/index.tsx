@@ -8,7 +8,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
   const navigate = useNavigate();
 
   const handleAllTweets = () => {
-    navigate("/");
+    navigate("/home");
   };
   const handleMyTweets = () => {
     navigate(`/userName`);
@@ -57,6 +57,7 @@ const LogoBox = styled.div`
   .title {
     font-size: 28px;
     font-weight: 500;
+    color: #fff;
   }
 
   .userName {
