@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 interface TweetCardProps {}
 
 const TweetCard: React.FC<TweetCardProps> = ({}) => {
+  const [open, setOpen] = useState(false);
+
+  const handleTweetDelete = () => {
+    console.log("삭제");
+  };
+
+  const handleTweetEdit = () => {
+    console.log("수정");
+    setOpen(true);
+  };
+
+  const handleTweetUpdate = () => {
+    console.log("업데이트");
+  };
+
+  const handleTweetEditClose = () => {
+    setOpen(false);
+  };
   return (
     <Card>
       <div className="cardContentBox">
@@ -16,20 +34,22 @@ const TweetCard: React.FC<TweetCardProps> = ({}) => {
           </span>
           <span className="content">CONTENT</span>
 
-          <div className="editInputBox">
-            <input type="text" />
+          {open && (
+            <div className="editInputBox">
+              <input type="text" />
 
-            <div className="editButtonBox">
-              <button>Update</button>
-              <button>Cancel</button>
+              <div className="editButtonBox">
+                <button onClick={handleTweetUpdate}>Update</button>
+                <button onClick={handleTweetEditClose}>Cancel</button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
       <div className="buttonBox">
-        <button>❌</button>
-        <button>✏️</button>
+        <button onClick={handleTweetDelete}>❌</button>
+        {!open && <button onClick={handleTweetEdit}>✏️</button>}
       </div>
     </Card>
   );
@@ -46,6 +66,7 @@ const Card = styled.ol`
   background-color: #fff;
   box-shadow: 1px 1px 13px 1px #00000026;
   border-radius: 6px;
+  transition: all 0.3s;
 
   .cardContentBox {
     width: 100%;
