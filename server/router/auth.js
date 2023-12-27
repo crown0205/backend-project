@@ -28,7 +28,7 @@ const validateSignup = [
   body("url")
     .isURL()
     .withMessage("URL 형식이 아닙니다.")
-    .optional({ values: "null" }),
+    .optional({ values: "falsy" }),
   validate,
 ];
 
