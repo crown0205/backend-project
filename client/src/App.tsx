@@ -7,6 +7,14 @@ import { GlobalStyle } from "./styles";
 import Login from "./pages/Login";
 
 function App() {
+  /** TODO
+   * token 라우팅
+   *  - Login page
+   *  - Main
+   * 로직 분리
+   * page 추가
+   *  - My page
+   */
   return (
     <>
       <GlobalStyle />

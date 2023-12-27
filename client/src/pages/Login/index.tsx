@@ -1,15 +1,14 @@
-import React, { FormEvent, useState } from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
+import { ILoginRequest, login, signup } from "../../service/auth";
 
 interface LoginProps {}
 
-interface ILoginInput {
-  id: string;
-  password: string;
+export interface ILoginInput extends ILoginRequest {
   name?: string;
   email?: string;
-  imageUrl?: string;
+  url?: string;
 }
 
 const Login: React.FC<LoginProps> = ({}) => {
@@ -24,26 +23,30 @@ const Login: React.FC<LoginProps> = ({}) => {
     setToggle((value) => !value);
   };
 
-  // const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  // };
+  const onSubmit: SubmitHandler<ILoginRequest | ILoginInput> = (data) => {
+    if (!toggle) {
+      login(data).then(() => {});
+    } else {
+      signup(data);
+    }
+  };
 
   console.log(errors);
-
-  const onSubmit: SubmitHandler<ILoginInput> = (data) => console.log(data);
 
   return (
     <LoginContainer>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
-          placeholder="ID"
-          {...register("id", {
+          placeholder="USERNAME"
+          {...register("username", {
             required: "아이디를 입력해주세요",
             maxLength: 20,
           })}
         />
-        {errors.id && <small className="errors">{errors?.id.message}</small>}
+        {errors.username && (
+          <small className="errors">{errors?.username.message}</small>
+        )}
         <input
           type="password"
           placeholder="PassWord"
@@ -63,7 +66,7 @@ const Login: React.FC<LoginProps> = ({}) => {
             <input
               type="text"
               placeholder="Profile Image URL"
-              {...register("imageUrl")}
+              {...register("url")}
             />
           </>
         )}
