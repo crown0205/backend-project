@@ -7,7 +7,6 @@ export async function signup(req, res) {
   const { username, password, name, email, url } = req.body;
   const found = await userRepository.findByUsername(username);
 
-  console.log({ found });
   if (found) {
     return res
       .status(409)
@@ -31,7 +30,6 @@ export async function login(req, res) {
   const { username, password } = req.body;
 
   const user = await userRepository.findByUsername(username);
-  console.log("USER", user);
 
   if (!user) {
     return res
