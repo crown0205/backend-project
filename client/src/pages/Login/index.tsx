@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
-import { ILoginRequest, login, signup } from "../../service/auth";
+import { ILoginRequest } from "../../service/auth";
 
-interface LoginProps {}
+interface LoginProps {
+  onLogin: (formData: ILoginRequest) => Promise<void>;
+  onSignup: (formData: ILoginInput) => Promise<void>;
+}
 
 export interface ILoginInput extends ILoginRequest {
   name?: string;
@@ -11,7 +14,7 @@ export interface ILoginInput extends ILoginRequest {
   url?: string;
 }
 
-const Login: React.FC<LoginProps> = ({}) => {
+const Login: React.FC<LoginProps> = ({ onLogin, onSignup }) => {
   const [toggle, setToggle] = useState(false);
   const {
     register,
@@ -25,9 +28,9 @@ const Login: React.FC<LoginProps> = ({}) => {
 
   const onSubmit: SubmitHandler<ILoginRequest | ILoginInput> = (data) => {
     if (!toggle) {
-      login(data).then(() => {});
+      onLogin(data);
     } else {
-      signup(data);
+      onSignup(data);
     }
   };
 

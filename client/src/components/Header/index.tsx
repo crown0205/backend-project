@@ -2,32 +2,45 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-interface HeaderProps {}
+interface HeaderProps {
+  user?: string;
+  isToken?: boolean;
+  onLogout: () => {};
+}
 
-const Header: React.FC<HeaderProps> = ({}) => {
+const Header: React.FC<HeaderProps> = ({ user, isToken, onLogout }) => {
   const navigate = useNavigate();
 
   const handleAllTweets = () => {
-    navigate("/home");
+    if (isToken) {
+      navigate("/home");
+    } else {
+      alert("로그인 후 사용해주세요.");
+    }
   };
   const handleMyTweets = () => {
-    navigate(`/userName`);
+    if (isToken) {
+      navigate(`/userName`);
+    } else {
+      alert("로그인 후 사용해주세요.");
+    }
   };
-  const handleLogout = () => {
-    navigate("/");
+
+  const handleLogoClick = () => {
+    navigate(isToken ? "/home" : "/");
   };
 
   return (
     <HeaderContainer>
-      <LogoBox>
+      <LogoBox onClick={handleLogoClick}>
         <img className="logo" src="/img/logo.png" alt="Logo" />
         <h1 className="title">Dwitter</h1>
-        <small className="userName">@userName</small>
+        <small className="userName">{user}</small>
       </LogoBox>
       <GNBBox>
         <button onClick={handleAllTweets}>All Tweets</button>
         <button onClick={handleMyTweets}>My Tweets</button>
-        <button onClick={handleLogout}>Logout</button>
+        <button onClick={onLogout}>{isToken ? "Logout" : "Login"}</button>
       </GNBBox>
     </HeaderContainer>
   );
@@ -40,7 +53,7 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   background-color: #000;
-
+  overflow: hidden;
   padding: 10px 8px;
 `;
 
