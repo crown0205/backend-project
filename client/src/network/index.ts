@@ -35,7 +35,7 @@ const request = async <R, T>({
     const token = localStorage.getItem("token");
 
     if (token) {
-      headers.Authorization = token;
+      headers.Authorization = `Bearer ${token}`;
     }
 
     return interceptorsConfig;
@@ -43,20 +43,28 @@ const request = async <R, T>({
 
   axiosInstance.interceptors.response.use(
     (response) => {
-      // const { data } = response;
-
-      // const token = data.token;
-
-      // if (token) {
-      //   localStorage.setItem("token", token);
-      // }
-
       return response;
     },
-    async (error: AxiosError) => {
+    async (error: AxiosError | Error): Promise<AxiosError> => {
       console.log("ERROR >>>", error);
+      const { response } = error as unknown as AxiosError;
+      const { status, data } = response as AxiosResponse;
 
-      return error;
+      if (status === 401) {
+        localStorage.removeItem("token");
+        console.log("token 제거함");
+        return Promise.reject(data?.message);
+      }
+
+      if (status < 500) {
+        return Promise.reject(data?.message);
+      }
+
+      if (status >= 500) {
+        return Promise.reject(`서버 에러가 발생 했습니다 ${error}`);
+      }
+
+      return Promise.reject(`알수 없는 에러가 발생 했습니다 ${error}`);
     }
   );
 
