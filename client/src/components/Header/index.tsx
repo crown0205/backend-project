@@ -41,13 +41,13 @@ const Header: React.FC<HeaderProps> = ({ user, isToken, onLogout }) => {
       </LogoBox>
       <GNBBox>
         <GNBButton
-          isActive={currentLocation === "/home"}
+          $isActive={currentLocation === "/home"}
           onClick={handleAllTweets}
         >
           All Tweets
         </GNBButton>
         <GNBButton
-          isActive={currentLocation === "/userName"}
+          $isActive={currentLocation === "/userName"}
           onClick={handleMyTweets}
         >
           My Tweets
@@ -97,16 +97,19 @@ const GNBBox = styled.nav`
   gap: 8px;
 `;
 
-const GNBButton = styled.button<{ isActive?: boolean }>`
+const GNBButton = styled.button<{
+  $isActive?: boolean;
+}>`
   font-size: 12px;
   margin: 0;
   padding: 0 4px;
   width: max-content;
 
-  ${({ isActive }) =>
-    isActive &&
-    css`
-      background: #1095c16e;
-      border-color: #1095c16e;
-    `}
+  ${({ $isActive }) =>
+    $isActive
+      ? css`
+          background: #1095c16e;
+          border-color: #1095c16e;
+        `
+      : ""}
 `;
