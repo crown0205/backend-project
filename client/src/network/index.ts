@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import { useNavigate } from "react-router-dom";
 
 const HOST_URL = process.env.REACT_APP_API_URL ?? "";
 
@@ -51,7 +52,9 @@ const request = async <R, T>({
       const { status, data } = response as AxiosResponse;
 
       if (status === 401) {
+        const navigate = useNavigate();
         localStorage.removeItem("token");
+        navigate("/", { replace: true });
         console.log("token 제거함");
         return Promise.reject(data?.message);
       }

@@ -16,7 +16,6 @@ const Home: React.FC<MainProps> = ({ isToken }) => {
     {
       onError: console.error,
       enabled: isToken,
-      refetchOnWindowFocus: false,
       cacheTime: 6000 * 5,
     }
   );

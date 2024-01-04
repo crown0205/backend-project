@@ -4,25 +4,24 @@ import styled from "styled-components";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Login, { ILoginInput } from "./pages/Login";
+import MyPage from "./pages/MyPage";
 import { ILoginRequest, login, logout, signup } from "./service/auth";
 import { GlobalStyle } from "./styles";
-import MyPage from "./pages/MyPage";
 
 function App() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const isToken = localStorage.getItem("token");
   const [user, setUser] = useState<string | undefined>();
-  /** TODO
-   * page 추가
-   *  - My page
-   */
 
   const handleLogin = async (formData: ILoginRequest) => {
     await login(formData) //
       .then((user) => {
         setUser(user);
         navigate("/home");
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -31,7 +30,8 @@ function App() {
       .then((user) => {
         setUser(user);
         navigate("/home");
-      });
+      })
+      .catch(console.error);
   };
 
   const handleLogout = () => {
@@ -53,7 +53,7 @@ function App() {
         <Routes>
           {isToken ? (
             <>
-              <Route path="/home" element={<Home />} />
+              <Route path="/home" element={<Home isToken={!!isToken} />} />
               <Route path="/username" element={<MyPage />} />
             </>
           ) : (
