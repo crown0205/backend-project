@@ -1,16 +1,33 @@
 import React from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
-import TweetCard from "../../components/TweetCard";
 import FormBox from "../../components/FormBox";
+import TweetCard from "../../components/TweetCard";
+import { getAllTweets } from "../../service/tweet";
 
-interface MainProps {}
+interface MainProps {
+  isToken: boolean;
+}
 
-const Home: React.FC<MainProps> = ({}) => {
+const Home: React.FC<MainProps> = ({ isToken }) => {
+  const { data: tweetsList } = useQuery(
+    "getAllTweets",
+    async () => getAllTweets(),
+    {
+      onError: console.error,
+      enabled: isToken,
+      refetchOnWindowFocus: false,
+      cacheTime: 6000 * 5,
+    }
+  );
+
   return (
     <>
       <FormBox />
       <TweetsList>
-        <TweetCard />
+        {tweetsList?.map((tweet) => (
+          <TweetCard key={tweet?.id} tweet={tweet} />
+        ))}
       </TweetsList>
     </>
   );

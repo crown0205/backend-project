@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { ITweet } from "../../service/tweet";
 
-interface TweetCardProps {}
+interface TweetCardProps {
+  tweet?: ITweet;
+}
 
-const TweetCard: React.FC<TweetCardProps> = ({}) => {
+const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
   const [open, setOpen] = useState(false);
 
   const handleTweetDelete = () => {
@@ -25,14 +28,18 @@ const TweetCard: React.FC<TweetCardProps> = ({}) => {
   return (
     <Card>
       <div className="cardContentBox">
-        <div className="image">E</div>
+        {tweet?.url ? (
+          <img className="image" src={tweet.url} alt="유저 사진" />
+        ) : (
+          <div className="image">{tweet?.username[0] ?? "T"}</div>
+        )}
         <div className="contentBox">
           <span className="nameBox">
-            <p className="name">USER NAME</p>
-            <small className="id">@NAME</small>
+            <p className="name">{tweet?.username}</p>
+            <small className="id">@{tweet?.name}</small>
             <small className="time">TIME</small>
           </span>
-          <span className="content">CONTENT</span>
+          <span className="content">{tweet?.text}</span>
 
           {open && (
             <div className="editInputBox">
