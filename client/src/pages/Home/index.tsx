@@ -5,7 +5,7 @@ import FormBox from "../../components/FormBox";
 
 interface MainProps {}
 
-const Main: React.FC<MainProps> = ({}) => {
+const Home: React.FC<MainProps> = ({}) => {
   return (
     <>
       <FormBox />
@@ -16,7 +16,7 @@ const Main: React.FC<MainProps> = ({}) => {
   );
 };
 
-export default Main;
+export default Home;
 
 const TweetsList = styled.ul`
   height: 100%;

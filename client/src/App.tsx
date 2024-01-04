@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import Main from "./pages/main";
 import styled from "styled-components";
 import Header from "./components/Header";
-import { GlobalStyle } from "./styles";
+import Home from "./pages/Home";
 import Login, { ILoginInput } from "./pages/Login";
 import { ILoginRequest, login, logout, signup } from "./service/auth";
+import { GlobalStyle } from "./styles";
+import MyPage from "./pages/MyPage";
 
 function App() {
   const navigate = useNavigate();
@@ -13,9 +14,6 @@ function App() {
   const isToken = localStorage.getItem("token");
   const [user, setUser] = useState<string | undefined>();
   /** TODO
-   *  - Login page
-   *  - Main
-   * 로직 분리
    * page 추가
    *  - My page
    */
@@ -53,7 +51,10 @@ function App() {
         <Header user={user} isToken={!!isToken} onLogout={handleLogout} />
         <Routes>
           {isToken ? (
-            <Route path="/home" element={<Main />} />
+            <>
+              <Route path="/home" element={<Home />} />
+              <Route path="/username" element={<MyPage />} />
+            </>
           ) : (
             <Route
               path="/"
