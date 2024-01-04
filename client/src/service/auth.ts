@@ -41,6 +41,6 @@ export async function signup(body: ILoginInput) {
   return username;
 }
 
-export async function logout() {
+export function logout() {
   localStorage.removeItem("token");
 }

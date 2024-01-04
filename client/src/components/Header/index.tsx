@@ -1,15 +1,17 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { useLocation, useNavigate } from "react-router-dom";
+import styled, { css } from "styled-components";
 
 interface HeaderProps {
   user?: string;
   isToken?: boolean;
-  onLogout: () => {};
+  onLogout: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ user, isToken, onLogout }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentLocation = location.pathname;
 
   const handleAllTweets = () => {
     if (isToken) {
@@ -38,9 +40,19 @@ const Header: React.FC<HeaderProps> = ({ user, isToken, onLogout }) => {
         <small className="userName">{user}</small>
       </LogoBox>
       <GNBBox>
-        <button onClick={handleAllTweets}>All Tweets</button>
-        <button onClick={handleMyTweets}>My Tweets</button>
-        <button onClick={onLogout}>{isToken ? "Logout" : "Login"}</button>
+        <GNBButton
+          isActive={currentLocation === "/home"}
+          onClick={handleAllTweets}
+        >
+          All Tweets
+        </GNBButton>
+        <GNBButton
+          isActive={currentLocation === "/userName"}
+          onClick={handleMyTweets}
+        >
+          My Tweets
+        </GNBButton>
+        <GNBButton onClick={onLogout}>{isToken ? "Logout" : "Login"}</GNBButton>
       </GNBBox>
     </HeaderContainer>
   );
@@ -83,11 +95,18 @@ const LogoBox = styled.div`
 const GNBBox = styled.nav`
   display: flex;
   gap: 8px;
+`;
 
-  button {
-    font-size: 12px;
-    margin: 0;
-    padding: 0 4px;
-    width: max-content;
-  }
+const GNBButton = styled.button<{ isActive?: boolean }>`
+  font-size: 12px;
+  margin: 0;
+  padding: 0 4px;
+  width: max-content;
+
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      background: #1095c16e;
+      border-color: #1095c16e;
+    `}
 `;

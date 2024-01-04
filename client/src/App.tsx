@@ -34,9 +34,10 @@ function App() {
       });
   };
 
-  const handleLogout = async () => {
-    if (user) {
-      await logout().then(() => setUser(undefined));
+  const handleLogout = () => {
+    if (user || !!isToken) {
+      logout();
+      setUser(undefined);
     }
 
     if (pathname !== "/") {
