@@ -34,8 +34,6 @@ const Login: React.FC<LoginProps> = ({ onLogin, onSignup }) => {
     }
   };
 
-  console.log(errors);
-
   return (
     <LoginContainer>
       <form onSubmit={handleSubmit(onSubmit)}>

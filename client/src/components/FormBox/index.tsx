@@ -1,19 +1,30 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import styled from "styled-components";
+import { ITweet, tweetPost } from "../../service/tweet";
 
-interface FormBoxProps {}
+interface FormBoxProps {
+  setTweets: React.Dispatch<React.SetStateAction<ITweet[]>>;
+}
 
-const FormBox: React.FC<FormBoxProps> = ({}) => {
+const FormBox: React.FC<FormBoxProps> = ({ setTweets }) => {
   const [post, setPost] = useState("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPost(e.target.value);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(post);
+
+    await tweetPost({ text: post }) //
+      .then((data) => {
+        setPost("");
+        setTweets((prevTweets) => [data, ...prevTweets]);
+      })
+      .catch(console.log);
+    // TODO 에러가 잘 내려 오지 않음. 네트워트 로직 수정 필요
   };
+
   return (
     <FormContainer onSubmit={handleSubmit}>
       <input
