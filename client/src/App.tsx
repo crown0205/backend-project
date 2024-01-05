@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Login, { ILoginInput } from "./pages/Login";
 import MyPage from "./pages/MyPage";
-import { ILoginRequest, login, logout, signup } from "./service/auth";
+import { ILoginRequest, login, logout, me, signup } from "./service/auth";
 import { GlobalStyle } from "./styles";
 
 function App() {
@@ -14,11 +14,26 @@ function App() {
   const isToken = localStorage.getItem("token");
   const [user, setUser] = useState<string | undefined>();
 
+  useEffect(() => {
+    me() //
+      .then((user) => {
+        console.log(user);
+        if (user) {
+          setUser(user);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+
+        navigate("/", { replace: true });
+      });
+  }, []);
+
   const handleLogin = async (formData: ILoginRequest) => {
     await login(formData) //
       .then((user) => {
         setUser(user);
-        navigate("/home");
+        navigate("/home", { replace: true });
       })
       .catch((error) => {
         console.log(error);

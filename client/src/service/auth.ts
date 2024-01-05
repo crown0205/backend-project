@@ -44,3 +44,17 @@ export async function signup(body: ILoginInput) {
 export function logout() {
   localStorage.removeItem("token");
 }
+
+export async function me() {
+  const { data } = await request<void, ILoginResponse>({
+    method: "get",
+    url: "/auth/me",
+  });
+
+  const { token, username } = data;
+
+  if (token) {
+    localStorage.setItem("token", token);
+  }
+  return username;
+}
