@@ -6,6 +6,8 @@ export async function getTweets(req, res) {
     ? tweetRepository.getAllByUsername(username)
     : tweetRepository.getAll());
 
+  console.log(data);
+
   res.status(200).json(data);
 }
 

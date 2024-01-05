@@ -2,9 +2,12 @@ import { DB } from "../db/database.js";
 
 export async function createUser(user) {
   const { username, password, name, email, url } = user;
+
+  const checkedUrl = url !== undefined ? url : null;
+
   return DB.execute(
     "INSERT INTO users (username, password, name, email, url) VALUES (?,?,?,?,?)",
-    [username, password, name, email, url]
+    [username, password, name, email, checkedUrl]
   ).then((result) => result[0].insertId);
 }
 
