@@ -7,6 +7,7 @@ export interface ITweet {
   username: string;
   name: string;
   url?: string;
+  createdAt: string;
 }
 
 export async function getAllTweets() {
@@ -30,4 +31,26 @@ export async function tweetPost(body: IContent) {
   });
 
   return data;
+}
+
+interface IPostTweet {
+  id: number;
+  text: string;
+}
+
+export async function tweetUpdate({ id, text }: IPostTweet) {
+  const { data } = await request<{ text: string }, ITweet>({
+    method: "put",
+    url: `/tweets/${id}`,
+    requestBody: { text },
+  });
+
+  return data;
+}
+
+export async function tweetDelete({ id }: { id: number }) {
+  await request({
+    method: "delete",
+    url: `/tweets/${id}`,
+  });
 }

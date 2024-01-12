@@ -68,8 +68,11 @@ function App() {
         <Routes>
           {isToken ? (
             <>
-              <Route path="/home" element={<Home isToken={!!isToken} />} />
-              <Route path="/username" element={<MyPage />} />
+              <Route
+                path="/home"
+                element={<Home isToken={!!isToken} user={user} />}
+              />
+              <Route path="/username" element={<MyPage user={user} />} />
             </>
           ) : (
             <Route

@@ -1,30 +1,37 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import styled from "styled-components";
 import { ITweet } from "../../service/tweet";
 
 interface TweetCardProps {
   tweet?: ITweet;
+  owner: boolean;
+  onUpdate: (text: string, id?: number) => void;
+  onDelete: (id?: number) => void;
 }
 
-const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
+const TweetCard: React.FC<TweetCardProps> = ({
+  tweet,
+  owner,
+  onUpdate,
+  onDelete,
+}) => {
   const [open, setOpen] = useState(false);
-
-  const handleTweetDelete = () => {
-    console.log("삭제");
-  };
+  const [text, setText] = useState(tweet?.text ?? "");
 
   const handleTweetEdit = () => {
-    console.log("수정");
     setOpen(true);
-  };
-
-  const handleTweetUpdate = () => {
-    console.log("업데이트");
   };
 
   const handleTweetEditClose = () => {
     setOpen(false);
   };
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+  };
+
+  const date = new Date(tweet?.createdAt!).toLocaleString();
+
   return (
     <Card>
       <div className="cardContentBox">
@@ -37,16 +44,27 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
           <span className="nameBox">
             <p className="name">{tweet?.username}</p>
             <small className="id">@{tweet?.name}</small>
-            <small className="time">TIME</small>
+            <small className="time">{date}</small>
           </span>
           <span className="content">{tweet?.text}</span>
 
           {open && (
             <div className="editInputBox">
-              <input type="text" />
+              <input type="text" value={text} onChange={onChange} />
 
               <div className="editButtonBox">
-                <button onClick={handleTweetUpdate}>Update</button>
+                <button
+                  onClick={() => {
+                    if (text !== tweet?.text) {
+                      onUpdate(text, tweet?.id);
+                      setOpen(false);
+                    } else {
+                      alert("텍스트를 입력해주세요");
+                    }
+                  }}
+                >
+                  Update
+                </button>
                 <button onClick={handleTweetEditClose}>Cancel</button>
               </div>
             </div>
@@ -54,10 +72,12 @@ const TweetCard: React.FC<TweetCardProps> = ({ tweet }) => {
         </div>
       </div>
 
-      <div className="buttonBox">
-        <button onClick={handleTweetDelete}>❌</button>
-        {!open && <button onClick={handleTweetEdit}>✏️</button>}
-      </div>
+      {owner && (
+        <div className="buttonBox">
+          <button onClick={() => onDelete(tweet?.id)}>❌</button>
+          {!open && <button onClick={handleTweetEdit}>✏️</button>}
+        </div>
+      )}
     </Card>
   );
 };

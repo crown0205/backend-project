@@ -3,15 +3,15 @@ import styled from "styled-components";
 import FormBox from "../../components/FormBox";
 import TweetCard from "../../components/TweetCard";
 
-interface MyPageProps {}
+interface MyPageProps {
+  user?: string;
+}
 
-const MyPage: React.FC<MyPageProps> = ({}) => {
+const MyPage: React.FC<MyPageProps> = ({ user }) => {
   return (
     <>
       {/* <FormBox /> */}
-      <TweetsList>
-        <TweetCard />
-      </TweetsList>
+      <TweetsList>{/* <TweetCard owner={!!user} /> */}</TweetsList>
     </>
   );
 };
